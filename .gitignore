@@ -1,0 +1,12 @@
+# Windows thumbnail database
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# OS X system files
+.DS_Store
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
