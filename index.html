@@ -4,6 +4,12 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Salaheddine Manaa | Portfolio</title>
+    <!-- Favicon (Sleek laptop emoji favicon) -->
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>💻</text></svg>"
+    />
     <meta
       name="description"
       content="Software Engineering student specialized in Full-Stack, AI & IoT — based in Tanger, Morocco."
@@ -547,8 +553,14 @@
       }
       /* Photo frame entrance animation — CSS-based, not GSAP, so it always works */
       @keyframes photo-entrance {
-        from { opacity: 0; transform: scale(0.92); }
-        to   { opacity: 1; transform: scale(1); }
+        from {
+          opacity: 0;
+          transform: scale(0.92);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
       }
       .photo-frame {
         position: relative;
@@ -1880,7 +1892,12 @@
               id="hero-photo"
               src="photo.png"
               alt="Salaheddine Manaa"
-              onerror="this.onerror=null; this.style.background='linear-gradient(135deg,var(--surface2),var(--surface))'; this.style.opacity='1';"
+              onerror="
+                this.onerror = null;
+                this.style.background =
+                  'linear-gradient(135deg,var(--surface2),var(--surface))';
+                this.style.opacity = '1';
+              "
             />
             <div class="photo-tag"><span>@</span>salaheddine manaa</div>
           </div>
@@ -2924,8 +2941,22 @@
         const heroPhoto = document.getElementById("hero-photo");
         if (heroPhoto && !heroPhoto.complete) {
           let loaderTimeout = setTimeout(hideLoader, 3000); // max wait 3s
-          heroPhoto.addEventListener("load",  function() { clearTimeout(loaderTimeout); hideLoader(); }, { once: true });
-          heroPhoto.addEventListener("error", function() { clearTimeout(loaderTimeout); hideLoader(); }, { once: true });
+          heroPhoto.addEventListener(
+            "load",
+            function () {
+              clearTimeout(loaderTimeout);
+              hideLoader();
+            },
+            { once: true },
+          );
+          heroPhoto.addEventListener(
+            "error",
+            function () {
+              clearTimeout(loaderTimeout);
+              hideLoader();
+            },
+            { once: true },
+          );
         } else {
           setTimeout(hideLoader, 800);
         }
