@@ -804,10 +804,40 @@
         font-weight: 500;
         margin-bottom: 0.6rem;
       }
+      .timeline-org a {
+        transition: color 0.2s;
+        border-bottom: 1px dashed rgba(124, 58, 237, 0.4);
+      }
+      .timeline-org a:hover {
+        color: var(--accent);
+        border-bottom-color: var(--accent);
+      }
       .timeline-desc {
         font-size: 0.88rem;
         color: var(--text-muted);
         line-height: 1.7;
+      }
+      .timeline-desc ul {
+        margin-top: 0.6rem;
+        padding-left: 1.1rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+      }
+      .timeline-desc li {
+        list-style: none;
+        position: relative;
+        padding-left: 0.9rem;
+      }
+      .timeline-desc li::before {
+        content: "";
+        position: absolute;
+        left: 0;
+        top: 0.55em;
+        width: 4px;
+        height: 4px;
+        border-radius: 50%;
+        background: var(--accent);
       }
 
       /* ═══ SKILLS ═══ */
@@ -848,80 +878,82 @@
         gap: 0.9rem;
       }
       .skill-card {
-        background: var(--surface);
+        background: linear-gradient(155deg, var(--surface) 0%, var(--surface2) 100%);
         border: 1px solid var(--border);
-        border-radius: 4px;
-        padding: 1.2rem 1rem;
+        border-radius: 10px;
+        padding: 1.3rem 1rem;
         display: flex;
         flex-direction: column;
         align-items: center;
+        justify-content: center;
         gap: 0.7rem;
-        transition: all 0.3s;
+        transition:
+          transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+          box-shadow 0.35s ease,
+          border-color 0.3s ease;
         position: relative;
         overflow: hidden;
         cursor: default;
+        transform-style: preserve-3d;
+        will-change: transform;
+        opacity: 0;
+        animation: skillPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      }
+      @keyframes skillPop {
+        from {
+          opacity: 0;
+          transform: translateY(18px) scale(0.9);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0) scale(1);
+        }
       }
       .skill-card::before {
         content: "";
         position: absolute;
         inset: 0;
-        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        background: radial-gradient(
+          circle at 50% 0%,
+          rgba(0, 229, 255, 0.16),
+          transparent 65%
+        );
         opacity: 0;
-        transition: opacity 0.3s;
+        transition: opacity 0.35s ease;
         z-index: 0;
+        pointer-events: none;
       }
       .skill-card:hover {
         border-color: var(--accent);
-        transform: translateY(-4px);
-        box-shadow: 0 12px 30px rgba(0, 229, 255, 0.1);
+        box-shadow:
+          0 18px 34px rgba(0, 229, 255, 0.14),
+          0 0 0 1px rgba(0, 229, 255, 0.08) inset;
       }
       .skill-card:hover::before {
-        opacity: 0.05;
+        opacity: 1;
       }
       .skill-card > * {
         position: relative;
         z-index: 1;
       }
       .skill-icon {
-        font-size: 2rem;
+        font-size: 2.3rem;
+        transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+        transform: translateZ(20px);
+      }
+      .skill-card:hover .skill-icon {
+        transform: translateZ(30px) scale(1.15);
       }
       .skill-name {
         font-size: 0.78rem;
         font-weight: 500;
         color: var(--text-muted);
         text-align: center;
+        transition: color 0.3s ease;
+        transform: translateZ(10px);
       }
-      .skill-level {
-        font-family: var(--font-mono);
-        font-size: 0.62rem;
-        letter-spacing: 0.06em;
-        padding: 0.2rem 0.6rem;
-        border-radius: 1px;
-      }
-      .skill-level.expert {
-        background: rgba(0, 229, 255, 0.1);
-        color: var(--accent);
-      }
-      .skill-level.advanced {
-        background: rgba(124, 58, 237, 0.1);
-        color: #a78bfa;
-      }
-      .skill-level.intermediate {
-        background: rgba(245, 158, 11, 0.1);
-        color: var(--accent3);
-      }
-      .skill-bar-wrap {
-        width: 100%;
-        height: 2px;
-        background: var(--border);
-        border-radius: 1px;
-      }
-      .skill-bar {
-        height: 100%;
-        border-radius: 1px;
-        background: linear-gradient(to right, var(--accent), var(--accent2));
-        width: 0;
-        transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+      .skill-card:hover .skill-name {
+        color: var(--text);
       }
 
       /* ═══ ABOUT STRIP ═══ */
@@ -1599,31 +1631,56 @@
       }
       .cv-dropdown-menu {
         position: absolute;
-        top: calc(100% + 8px);
+        top: calc(100% + 10px);
         right: 0;
         background: var(--surface);
         border: 1px solid var(--border);
-        border-radius: 2px;
-        min-width: 180px;
+        border-radius: 4px;
+        min-width: 190px;
         opacity: 0;
         visibility: hidden;
-        transform: translateY(-8px);
-        transition: all 0.2s;
+        transform: translateY(-10px) scale(0.96);
+        transform-origin: top right;
+        transition:
+          opacity 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.25s cubic-bezier(0.22, 1, 0.36, 1),
+          visibility 0.25s;
         z-index: 10;
+        overflow: hidden;
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
       }
       .cv-dropdown:hover .cv-dropdown-menu {
         opacity: 1;
         visibility: visible;
-        transform: translateY(0);
+        transform: translateY(0) scale(1);
       }
       .cv-dropdown-menu a {
-        display: block;
-        padding: 0.7rem 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.6rem;
+        padding: 0.75rem 1rem;
         font-family: var(--font-mono);
         font-size: 0.72rem;
         color: var(--text-muted);
         border-bottom: 1px solid var(--border);
-        transition: all 0.15s;
+        opacity: 0;
+        transform: translateX(-6px);
+        transition:
+          background 0.15s,
+          color 0.15s,
+          padding-left 0.15s,
+          opacity 0.3s ease,
+          transform 0.3s ease;
+      }
+      .cv-dropdown:hover .cv-dropdown-menu a {
+        opacity: 1;
+        transform: translateX(0);
+      }
+      .cv-dropdown:hover .cv-dropdown-menu a:nth-child(1) {
+        transition-delay: 0.05s;
+      }
+      .cv-dropdown:hover .cv-dropdown-menu a:nth-child(2) {
+        transition-delay: 0.1s;
       }
       .cv-dropdown-menu a:last-child {
         border-bottom: none;
@@ -1631,6 +1688,10 @@
       .cv-dropdown-menu a:hover {
         background: var(--bg);
         color: var(--accent);
+        padding-left: 1.3rem;
+      }
+      .cv-flag {
+        font-size: 0.95rem;
       }
 
       /* ═══════════════════════════════════════════════
@@ -1673,6 +1734,39 @@
         .nav-logo {
           font-size: 1.2rem;
         }
+      }
+
+      /* ── Mobile menu: sits above the navbar so its buttons are always clickable ── */
+      .mobile-menu {
+        z-index: 150;
+      }
+      nav {
+        z-index: 100;
+      }
+      body.menu-open nav {
+        visibility: hidden;
+      }
+      .mobile-menu-cv {
+        display: flex;
+        gap: 0.8rem;
+        margin-top: -1rem;
+      }
+      .mobile-menu-cv a {
+        font-family: var(--font-mono);
+        font-size: 0.8rem;
+        font-weight: 500;
+        border: 1px solid var(--border);
+        padding: 0.6rem 1.1rem;
+        border-radius: 3px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--text-muted);
+        transition: all 0.2s;
+      }
+      .mobile-menu-cv a:hover {
+        border-color: var(--accent);
+        color: var(--accent);
       }
 
       /* ── Hero section ── */
@@ -1799,17 +1893,17 @@
       /* ── Skills ── */
       @media (max-width: 768px) {
         .skills-grid {
-          grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+          grid-template-columns: repeat(auto-fill, minmax(105px, 1fr));
           gap: 0.7rem;
         }
         .skill-card {
-          padding: 1rem 0.7rem;
+          padding: 1.1rem 0.6rem;
         }
         .skill-icon {
-          font-size: 1.6rem;
+          font-size: 1.8rem;
         }
         .skill-name {
-          font-size: 0.72rem;
+          font-size: 0.7rem;
         }
       }
 
@@ -1818,18 +1912,12 @@
           grid-template-columns: repeat(3, 1fr);
           gap: 0.6rem;
         }
-        .skill-level {
-          display: none;
-        }
-        .skill-bar-wrap {
-          display: none;
-        }
       }
 
-      /* ── Projects ── */
+      /* ── Projects: 2 columns on mobile instead of 1 ── */
       @media (max-width: 768px) {
         .projects-grid {
-          grid-template-columns: 1fr;
+          grid-template-columns: repeat(2, 1fr);
         }
         .projects-filters {
           gap: 0.4rem;
@@ -1840,22 +1928,96 @@
         }
       }
 
-      @media (max-width: 480px) {
+      @media (max-width: 640px) {
+        .projects-grid {
+          gap: 0.8rem;
+        }
         .project-img {
-          height: 175px;
+          height: 100px;
+        }
+        .project-cat-badge {
+          top: 6px;
+          left: 6px;
+          font-size: 0.52rem;
+          padding: 0.2rem 0.5rem;
+        }
+        .project-github-btn {
+          top: 6px;
+          right: 6px;
+          height: 26px;
+          padding: 0 0.45rem;
+        }
+        .project-github-label {
+          display: none;
+        }
+        .project-github-btn svg {
+          width: 12px;
+          height: 12px;
+        }
+        .project-body {
+          padding: 0.75rem;
+        }
+        .project-title {
+          font-size: 0.8rem;
+          margin-bottom: 0.35rem;
+        }
+        .project-desc {
+          font-size: 0.68rem;
+          line-height: 1.45;
+          margin-bottom: 0.6rem;
+          -webkit-line-clamp: 2;
+        }
+        .project-tech {
+          gap: 0.25rem;
+        }
+        .tech-tag {
+          font-size: 0.52rem;
+          padding: 0.16rem 0.4rem;
         }
       }
 
-      /* ── Certificates ── */
+      @media (max-width: 480px) {
+        .project-img {
+          height: 90px;
+        }
+      }
+
+      /* ── Certificates: 2 columns on mobile ── */
       @media (max-width: 768px) {
         .certs-grid {
-          grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+          grid-template-columns: repeat(2, 1fr);
           gap: 1rem;
         }
       }
-      @media (max-width: 480px) {
+      @media (max-width: 640px) {
         .certs-grid {
-          grid-template-columns: 1fr;
+          gap: 0.8rem;
+        }
+        .cert-img {
+          height: 90px;
+        }
+        .cert-platform-badge {
+          top: 6px;
+          left: 6px;
+          font-size: 0.52rem;
+          padding: 0.18rem 0.5rem;
+        }
+        .cert-body {
+          padding: 0.65rem;
+        }
+        .cert-title {
+          font-size: 0.72rem;
+          line-height: 1.35;
+          padding-bottom: 0.5rem;
+        }
+        .cert-link {
+          font-size: 0.56rem;
+          padding-top: 0.5rem;
+          gap: 0.3rem;
+        }
+        .cert-link svg {
+          width: 10px;
+          height: 10px;
         }
       }
 
@@ -1939,6 +2101,9 @@
         .project-card {
           transform: none !important;
         }
+        .skill-card {
+          transform: none !important;
+        }
       }
     </style>
   </head>
@@ -1978,13 +2143,13 @@
               href="salaheddine_manaa_french_version.pdf"
               target="_blank"
               data-i18n="cv_fr"
-              >Download (FR)</a
+              ><span class="cv-flag">🇫🇷</span> Download (FR)</a
             >
             <a
               href="salaheddine_manaa_english_version.pdf"
               target="_blank"
               data-i18n="cv_en"
-              >Download (EN)</a
+              ><span class="cv-flag">🇬🇧</span> Download (EN)</a
             >
           </div>
         </div>
@@ -2005,7 +2170,7 @@
 
     <!-- Mobile Menu -->
     <div class="mobile-menu" id="mobileMenu">
-      <button class="mobile-close" id="mobileClose">✕</button>
+      <button class="mobile-close" id="mobileClose" aria-label="Close menu">✕</button>
       <a
         href="#experience"
         data-i18n="nav_experience"
@@ -2027,9 +2192,14 @@
       <a href="#contact" data-i18n="nav_contact" onclick="closeMobileMenu()"
         >Contact</a
       >
-      <a href="salaheddine_manaa_english_version.pdf" target="_blank"
-        >↓ CV (EN)</a
-      >
+      <div class="mobile-menu-cv">
+        <a href="salaheddine_manaa_french_version.pdf" target="_blank"
+          ><span class="cv-flag">🇫🇷</span> CV FR</a
+        >
+        <a href="salaheddine_manaa_english_version.pdf" target="_blank"
+          ><span class="cv-flag">🇬🇧</span> CV EN</a
+        >
+      </div>
     </div>
 
     <main>
@@ -2316,23 +2486,7 @@
                 </svg>
                 <span data-i18n="exp_title">Experience</span>
               </div>
-              <div class="timeline">
-                <div class="timeline-item">
-                  <div class="timeline-date" data-i18n="exp_techium_date">
-                    July — August 2025 (2 months)
-                  </div>
-                  <div class="timeline-title" data-i18n="exp_techium_title">
-                    Initiation Internship
-                  </div>
-                  <div class="timeline-org" data-i18n="exp_techium_subtitle">
-                    TECHIUM SARL
-                  </div>
-                  <div class="timeline-desc" data-i18n="exp_techium_desc">
-                    Developed an Analytics tool — an advanced user tracking
-                    module for an e-learning platform.
-                  </div>
-                </div>
-              </div>
+              <div class="timeline" id="experience-timeline"></div>
             </div>
           </div>
         </div>
@@ -2462,11 +2616,6 @@
           edu_emsi_desc:
             "In-depth training in software engineering, information systems, artificial intelligence, data science, and network architectures.",
           exp_title: "Experience",
-          exp_techium_date: "July — August 2025 (2 months)",
-          exp_techium_title: "Initiation Internship",
-          exp_techium_subtitle: "TECHIUM SARL",
-          exp_techium_desc:
-            "Developed an Analytics tool — an advanced user tracking module for an e-learning platform.",
           skills_eyebrow: "Toolkit",
           skills_title: "Technical Skills",
           skills_sub:
@@ -2513,11 +2662,6 @@
           edu_emsi_desc:
             "Formation approfondie en ingénierie logicielle, systèmes d'information, intelligence artificielle, data science, et architectures réseaux.",
           exp_title: "Expérience",
-          exp_techium_date: "Juillet — Août 2025 (2 mois)",
-          exp_techium_title: "Stage d'initiation",
-          exp_techium_subtitle: "TECHIUM SARL",
-          exp_techium_desc:
-            "Développement d'un outil Analytics, un module avancé de suivi des utilisateurs pour une plateforme e-learning.",
           skills_eyebrow: "Boîte à outils",
           skills_title: "Compétences Techniques",
           skills_sub:
@@ -2540,6 +2684,58 @@
           btn_github: "Voir sur GitHub",
         },
       };
+
+      // Experience timeline entries (most recent first)
+      const experienceItems = [
+        {
+          date: { en: "2025 — Present", fr: "2025 — Présent" },
+          title: { en: "Founder", fr: "Fondateur" },
+          org: "Synerv.tech",
+          orgUrl: "https://www.linkedin.com/company/synerv-tech/posts/?feedView=all",
+          desc: {
+            en: "Founded and lead Synerv.tech, a technology studio building software and AI-driven products. Own the product vision, technical architecture, and client delivery end-to-end.",
+            fr: "Fondateur et dirigeant de Synerv.tech, un studio technologique qui conçoit des produits logiciels et des solutions basées sur l'IA. Responsable de la vision produit, de l'architecture technique et de la livraison client de bout en bout.",
+          },
+        },
+        {
+          date: {
+            en: "July — August 2026 (2 months)",
+            fr: "Juillet — Août 2026 (2 mois)",
+          },
+          title: { en: "AI Developer Intern", fr: "Stagiaire Développeur IA" },
+          org: "IKSATECH",
+          orgUrl: "",
+          desc: {
+            en: "Designed and built an intelligent AI Sales Agent (BDR) meant to operate 24/7: prospecting leads, opening natural conversations, qualifying needs, presenting services, handling objections, booking meetings, and handing off qualified opportunities to the human sales team.",
+            fr: "Conception et développement d'un Agent IA Commercial intelligent destiné à fonctionner 24h/24 : identification des prospects, ouverture d'une conversation naturelle, qualification des besoins, présentation des services, traitement des objections, prise de rendez-vous et transmission des opportunités qualifiées aux commerciaux humains.",
+          },
+          bullets: {
+            en: [
+              "Modeled the BDR workflow end-to-end: prospecting → qualification → objection handling → meeting booking → handoff",
+              "Built the conversational engine to hold natural, context-aware sales discussions",
+              "Integrated calendar scheduling so the agent could autonomously plan meetings",
+            ],
+            fr: [
+              "Modélisation complète du parcours BDR : prospection → qualification → gestion des objections → prise de rendez-vous → transmission",
+              "Développement du moteur conversationnel pour des échanges commerciaux naturels et contextualisés",
+              "Intégration de la planification calendrier pour que l'agent fixe des rendez-vous de façon autonome",
+            ],
+          },
+        },
+        {
+          date: {
+            en: "July — August 2025 (2 months)",
+            fr: "Juillet — Août 2025 (2 mois)",
+          },
+          title: { en: "Initiation Internship", fr: "Stage d'initiation" },
+          org: "TECHIUM SARL",
+          orgUrl: "",
+          desc: {
+            en: "Developed an Analytics tool — an advanced user tracking module for an e-learning platform.",
+            fr: "Développement d'un outil Analytics, un module avancé de suivi des utilisateurs pour une plateforme e-learning.",
+          },
+        },
+      ];
 
       const skillCategories = [
         {
@@ -2996,6 +3192,7 @@
         });
         document.getElementById("lang-toggle").textContent =
           currentLang === "en" ? "FR" : "EN";
+        renderExperience();
         renderSkills();
         renderProjects();
       }
@@ -3036,6 +3233,30 @@
         });
       }
 
+      // ═══ EXPERIENCE ═══
+      function renderExperience() {
+        const container = document.getElementById("experience-timeline");
+        if (!container) return;
+        container.innerHTML = "";
+        experienceItems.forEach((item) => {
+          const el = document.createElement("div");
+          el.className = "timeline-item";
+          const orgHtml = item.orgUrl
+            ? `<a href="${item.orgUrl}" target="_blank" rel="noopener noreferrer">${item.org}</a>`
+            : item.org;
+          const bullets = item.bullets
+            ? `<ul>${item.bullets[currentLang].map((b) => `<li>${b}</li>`).join("")}</ul>`
+            : "";
+          el.innerHTML = `
+            <div class="timeline-date">${item.date[currentLang]}</div>
+            <div class="timeline-title">${item.title[currentLang]}</div>
+            <div class="timeline-org">${orgHtml}</div>
+            <div class="timeline-desc">${item.desc[currentLang]}${bullets}</div>
+          `;
+          container.appendChild(el);
+        });
+      }
+
       // ═══ SKILLS ═══
       function renderSkills() {
         const container = document.getElementById("skills-all-groups");
@@ -3052,20 +3273,12 @@
             const card = document.createElement("div");
             card.className = "skill-card";
             card.style.animationDelay = `${idx * 40}ms`;
-            const levelClass =
-              s.level.toLowerCase() === "expert"
-                ? "expert"
-                : s.level.toLowerCase() === "advanced"
-                  ? "advanced"
-                  : "intermediate";
             const iconHtml = s.icon
               ? `<i class="${s.icon} skill-icon"></i>`
-              : `<img src="${s.img}" alt="${s.name}" style="width:2rem;height:2rem;object-fit:contain;">`;
+              : `<img src="${s.img}" alt="${s.name}" style="width:2.2rem;height:2.2rem;object-fit:contain;">`;
             card.innerHTML = `
           ${iconHtml}
           <span class="skill-name">${s.name}</span>
-          <span class="skill-level ${levelClass}">${s.level}</span>
-          <div class="skill-bar-wrap"><div class="skill-bar" data-pct="${s.pct}"></div></div>
         `;
             grid.appendChild(card);
           });
@@ -3073,15 +3286,17 @@
           group.appendChild(grid);
           container.appendChild(group);
         });
-        // Animate bars after short delay
-        requestAnimationFrame(() => {
-          container.querySelectorAll(".skill-bar").forEach((bar) => {
-            const pct = bar.dataset.pct;
-            setTimeout(() => {
-              bar.style.width = pct + "%";
-            }, 200);
+        // 3D tilt on each skill card
+        if (window.VanillaTilt) {
+          VanillaTilt.init(container.querySelectorAll(".skill-card"), {
+            max: 18,
+            speed: 400,
+            glare: true,
+            "max-glare": 0.25,
+            scale: 1.06,
+            perspective: 700,
           });
-        });
+        }
       }
 
       // ═══ PROJECTS ═══
@@ -3374,18 +3589,17 @@
       animateRing();
 
       // ═══ MOBILE MENU ═══
-      document
-        .getElementById("mobileMenuBtn")
-        .addEventListener("click", () =>
-          document.getElementById("mobileMenu").classList.add("open"),
-        );
-      document
-        .getElementById("mobileClose")
-        .addEventListener("click", () =>
-          document.getElementById("mobileMenu").classList.remove("open"),
-        );
+      document.getElementById("mobileMenuBtn").addEventListener("click", () => {
+        document.getElementById("mobileMenu").classList.add("open");
+        document.body.classList.add("menu-open");
+      });
+      document.getElementById("mobileClose").addEventListener("click", () => {
+        document.getElementById("mobileMenu").classList.remove("open");
+        document.body.classList.remove("menu-open");
+      });
       function closeMobileMenu() {
         document.getElementById("mobileMenu").classList.remove("open");
+        document.body.classList.remove("menu-open");
       }
 
       // ═══ FORM ═══
